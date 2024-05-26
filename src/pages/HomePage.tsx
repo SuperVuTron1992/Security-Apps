@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import AuthTokenService from '../services/AuthTokenService';
 import { Button } from '@material-ui/core';
 import { useTheme } from '@mui/material/styles';
+import { MuiFileInput } from 'mui-file-input';
 
 const HomePage: React.FC = () => {
   const theme = useTheme();
   const [UserEmail, setUserEmail] = useState<String | undefined>();
   const [PassWord, setPassWord] = useState<String | undefined>();
+  const [file, setFile] = useState<any>();
 
   let navigate = useNavigate();
 
@@ -31,6 +33,26 @@ const HomePage: React.FC = () => {
   // check the forgot password button and link to a new forget password page
   const checkForgotPasswordButton = () => {
     navigate('/ForgotPassWordPage');
+  };
+
+  const handleChange = (newFile: any) => {
+    setFile(newFile);
+  };
+
+  const checkSubmitfileButtonPress = async () => {
+    try {
+      const getAuth = await AuthTokenService.AuthToken(PassWord);
+      navigate(`/${getAuth.jwt}/NewStockPage/`);
+    } catch (error) {
+      console.error('Error fetching authentication data:', error);
+    }
+  };
+
+  const handleSubmitPress = () => {
+    if (File) {
+      // checkSubmitfileButtonPress();
+      console.log('testing stuff');
+    }
   };
 
   return (
@@ -73,6 +95,19 @@ const HomePage: React.FC = () => {
           Forgot Password
         </Button>
       </div>
+
+      <MuiFileInput
+        value={file}
+        onChange={handleChange}
+        placeholder="Click and Select File for Upload"
+      />
+      <Button
+        variant="contained"
+        style={{ backgroundColor: theme.palette.red.main, color: 'black' }}
+        onClick={handleSubmitPress}
+      >
+        !Click-to-Submit
+      </Button>
     </div>
   );
 };
