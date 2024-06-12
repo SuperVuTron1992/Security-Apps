@@ -1,13 +1,13 @@
-import React, { createContext, useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import AuthTokenService from '../services/AuthTokenService';
-import { Button } from '@material-ui/core';
-import { useTheme } from '@mui/material/styles';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthTokenService from "../services/AuthTokenService";
+import { Button, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 const LoginPage: React.FC = () => {
-  const [UserEmail, setUserEmail] = useState<String | undefined>();
-  const [PassWord, setPassWord] = useState<String | undefined>();
-  const theme = useTheme();
+  const [UserEmail, setUserEmail] = useState<String>();
+  const [PassWord, setPassWord] = useState<String>();
+  const theme = useTheme<any>();
 
   let navigate = useNavigate();
 
@@ -17,20 +17,20 @@ const LoginPage: React.FC = () => {
       const getAuth = await AuthTokenService.AuthToken(PassWord);
       navigate(`/${getAuth.jwt}/NewStockPage/`);
     } catch (error) {
-      console.error('Error fetching authentication data:', error);
+      console.error("Error fetching authentication data:", error);
     }
   };
 
   // listen to the enter button was enter
   const handleKeyPress = (event: any) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       checkSubmiteButton();
     }
   };
 
   // check the forgot password button and link to a new forget password page
   const checkForgotPasswordButton = () => {
-    navigate('/ForgotPassWordPage');
+    navigate("/ForgotPassWordPage");
   };
 
   return (
@@ -59,15 +59,15 @@ const LoginPage: React.FC = () => {
       <div className="flex w-max gap-4 ">
         <Button
           variant="contained"
-          style={{ backgroundColor: theme.palette.green.main, color: 'white' }}
+          style={{ backgroundColor: theme.palette.green.main, color: "white" }}
           onClick={checkSubmiteButton}
         >
-          {' '}
+          {" "}
           Submit
         </Button>
         <Button
           variant="outlined"
-          style={{ backgroundColor: 'white', color: 'red' }}
+          style={{ backgroundColor: "white", color: "red" }}
           onClick={checkForgotPasswordButton}
         >
           Forgot Password
