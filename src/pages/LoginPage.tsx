@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthTokenService from "../services/AuthTokenService";
-import { Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import BoxShowContents from "../components/boxShowContents";
 
 const LoginPage: React.FC = () => {
   const [UserEmail, setUserEmail] = useState<String>();
@@ -30,49 +31,66 @@ const LoginPage: React.FC = () => {
 
   // check the forgot password button and link to a new forget password page
   const checkForgotPasswordButton = () => {
-    navigate("/ForgotPassWordPage");
+    // navigate("/ForgotPassWordPage");
+    console.log("testing Stuff");
   };
 
-  return (
-    <div className="grid h-screen place-content-center">
-      <div className=" text-3xl font-bold text-blue-600  ml-20 pb-8">
-        <h1> Login Page</h1>
-      </div>
+  const userAndPassWordField = () => {
+    return (
+      <>
+        <div className="mb-8">
+          <input
+            className=" h-16 w-80 border-solid border-2 border-black "
+            placeholder="Email"
+            onChange={(event) => setUserEmail(event.target.value)}
+          />
+        </div>
 
-      <div className="mb-8">
-        <input
-          className=" h-16 w-80 border-solid border-2 border-black "
-          placeholder="Email"
-          onChange={(event) => setUserEmail(event.target.value)}
-        />
-      </div>
+        <div className="mb-8">
+          <input
+            className=" h-16 w-80 border-solid border-2 border-black"
+            placeholder="Password"
+            onChange={(event) => setPassWord(event.target.value)}
+            type="password"
+            onKeyDown={handleKeyPress}
+          />
+        </div>
+      </>
+    );
+  };
 
-      <div className="mb-8">
-        <input
-          className=" h-16 w-80 border-solid border-2 border-black"
-          placeholder="Password"
-          onChange={(event) => setPassWord(event.target.value)}
-          onKeyDown={handleKeyPress}
-        />
-      </div>
-
-      <div className="flex w-max gap-4 ">
+  const submitButton = () => {
+    return (
+      <>
         <Button
           variant="contained"
-          style={{ backgroundColor: theme.palette.green.main, color: "white" }}
+          style={{
+            backgroundColor: theme.palette.green.main,
+            color: "white",
+          }}
           onClick={checkSubmiteButton}
         >
           {" "}
           Submit
         </Button>
-        <Button
-          variant="outlined"
-          style={{ backgroundColor: "white", color: "red" }}
-          onClick={checkForgotPasswordButton}
-        >
-          Forgot Password
-        </Button>
-      </div>
+      </>
+    );
+  };
+
+  const resetButton = () => {
+    return <></>;
+  };
+
+  return (
+    <div className="grid h-screen place-content-center">
+      <BoxShowContents
+        headerCard={"User Login"}
+        inputWidth={500}
+        inputLength={500}
+        reactComponent={userAndPassWordField()}
+        buttonLeft={submitButton()}
+        buttonRight={resetButton()}
+      />
     </div>
   );
 };
