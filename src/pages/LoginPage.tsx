@@ -16,7 +16,7 @@ const LoginPage: React.FC = () => {
   const checkSubmiteButton = async () => {
     try {
       const getAuth = await AuthTokenService.AuthToken(PassWord);
-      navigate(`/${getAuth.jwt}/NewStockPage/`);
+      navigate(`${getAuth.jwt}/HomePage/`);
     } catch (error) {
       console.error("Error fetching authentication data:", error);
     }

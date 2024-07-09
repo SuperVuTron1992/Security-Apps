@@ -13,17 +13,16 @@ const HomePage: React.FC = () => {
   } | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const checkSubmitfileButtonPress = async (data: any) => {
+  const checkSubmitfileButtonPress = async (data: any, fileName: String) => {
     try {
-      console.log("testing this");
+      const requestData = {
+        data,
+        fileName,
+      };
       const response = await axios.post(
         `https://fluxdux.com/importJsonData/Stock/Properties/`,
-        data
+        requestData
       );
-
-      if (response.status === 200) {
-        alert("File data uploaded successfully");
-      }
     } catch (error) {
       console.error("Error uploading file data:", error);
     }
@@ -43,9 +42,6 @@ const HomePage: React.FC = () => {
         console.error("Error parsing JSON:", error);
       }
     };
-    reader.onerror = (event) => {
-      console.error("Error reading file:", event);
-    };
     reader.readAsText(file);
   };
 
@@ -57,14 +53,9 @@ const HomePage: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    if (jsonData) {
-      // Example submission logic
-      console.log("Submitting JSON data:", jsonData);
-      checkSubmitfileButtonPress(jsonData);
-
-      alert("JSON data submitted successfully!");
-    } else {
-      alert("No JSON data to submit");
+    if (jsonData && fileInfo) {
+      checkSubmitfileButtonPress(jsonData, fileInfo.name);
+      alert(fileInfo.name + ": submitted successfully!");
     }
   };
 
@@ -78,7 +69,9 @@ const HomePage: React.FC = () => {
         />
 
         <pre>
-          {jsonData ? JSON.stringify(jsonData, null, 2) : "No file content"}
+          {jsonData && fileInfo
+            ? "Loaded " + fileInfo.name + " Data"
+            : "No file content"}
         </pre>
       </>
     );
