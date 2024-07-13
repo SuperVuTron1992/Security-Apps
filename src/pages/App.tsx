@@ -15,8 +15,9 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<LoginPage />} />
-          <Route path=":jwtToken/HomePage" element={<HomePage />} />
+          {/* <Route index element={<LoginPage />} />
+          <Route path=":jwtToken/HomePage" element={<HomePage />} /> */}
+          <Route index element={<HomePage />} />
         </Route>
       </Routes>
     </Router>
