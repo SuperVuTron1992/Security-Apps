@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import BoxShowContents from "../components/boxShowContents";
 
-const LoginPage: React.FC = () => {
+const LoginPage = () => {
   const [UserEmail, setUserEmail] = useState<String>();
   const [PassWord, setPassWord] = useState<String>();
   const theme = useTheme<any>();
@@ -70,7 +70,6 @@ const LoginPage: React.FC = () => {
           }}
           onClick={checkSubmiteButton}
         >
-          {" "}
           Submit
         </Button>
       </>

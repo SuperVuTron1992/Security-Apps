@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { MuiFileInput } from "mui-file-input";
 import { Button } from "@mui/material";
-import axios from "axios";
+import { RootState, AppDispatch } from "../states/store";
+import { useSelector, useDispatch } from "react-redux";
 import BoxShowContents from "../components/boxShowContents";
+import { addAFile } from "../features/uploadSlice";
+import axios from "axios";
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const files = useSelector((state: RootState) => state.upload.uploadData);
   const [jsonData, setJsonData] = useState<any>(null);
   const [fileInfo, setFileInfo] = useState<{
     name: string;
@@ -54,7 +59,9 @@ const HomePage: React.FC = () => {
 
   const handleSubmit = () => {
     if (jsonData && fileInfo) {
-      checkSubmitfileButtonPress(jsonData, fileInfo.name);
+      // checkSubmitfileButtonPress(jsonData, fileInfo.name);
+      console.log(jsonData);
+      dispatch(addAFile({ fileName: files }));
       alert(fileInfo.name + ": submitted successfully!");
     }
   };
@@ -82,6 +89,14 @@ const HomePage: React.FC = () => {
       <Button variant="contained" onClick={handleSubmit} disabled={!jsonData}>
         Submit
       </Button>
+
+      // <Button
+      //   variant="contained"
+      //   onClick={() => dispatch(addAFile({ fileName: jsonData }))}
+      //   disabled={!jsonData}
+      // >
+      //   Submit
+      // </Button>
     );
   };
   const resetButton = () => {
