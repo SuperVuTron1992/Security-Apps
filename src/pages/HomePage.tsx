@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { MuiFileInput } from "mui-file-input";
 import { Button } from "@mui/material";
-import { RootState, AppDispatch } from "../states/store";
-import { useSelector, useDispatch } from "react-redux";
 import BoxShowContents from "../components/boxShowContents";
 import { addAFile } from "../features/uploadSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { postUpLoadFileThunk } from "../features/fileUploadSlice";
+import { AppDispatch } from "../states/store";
 import axios from "axios";
 
 const HomePage = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const files = useSelector((state: RootState) => state.upload.uploadData);
   const [jsonData, setJsonData] = useState<any>(null);
   const [fileInfo, setFileInfo] = useState<{
     name: string;
@@ -17,17 +16,28 @@ const HomePage = () => {
     type: string;
   } | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const dispatch: AppDispatch = useDispatch();
 
-  const checkSubmitfileButtonPress = async (data: any, fileName: String) => {
+  // const checkSubmitfileButtonPress = async (data: any, fileName: String) => {
+  //   try {
+  //     const requestData = {
+  //       data,
+  //       fileName,
+  //     };
+  //     const response = await axios.post(
+  //       `https://fluxdux.com/importJsonData/Stock/Properties/`,
+  //       requestData
+  //     );
+  //   } catch (error) {
+  //     console.error("Error uploading file data:", error);
+  //   }
+  // };
+
+  const checkSubmitfileButtonPress = async (data: any, fileName: string) => {
     try {
-      const requestData = {
-        data,
-        fileName,
-      };
-      const response = await axios.post(
-        `https://fluxdux.com/importJsonData/Stock/Properties/`,
-        requestData
-      );
+      // Dispatch the thunk action
+      await dispatch(postUpLoadFileThunk({ data, fileName }));
+      alert("got it!!!");
     } catch (error) {
       console.error("Error uploading file data:", error);
     }
@@ -59,10 +69,7 @@ const HomePage = () => {
 
   const handleSubmit = () => {
     if (jsonData && fileInfo) {
-      // checkSubmitfileButtonPress(jsonData, fileInfo.name);
-      console.log(jsonData);
-      dispatch(addAFile({ fileName: files }));
-      alert(fileInfo.name + ": submitted successfully!");
+      checkSubmitfileButtonPress(jsonData, fileInfo.name);
     }
   };
 

@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import  { UploadSlice } from '../features/uploadSlice';
-
+import { UploadSlice } from '../features/uploadSlice';
+import fileUploadReducer from '../features/fileUploadSlice';
+    
 const store = configureStore({
     reducer:{
-        upload: UploadSlice.reducer
+        upload: UploadSlice.reducer,
+        fileUpload : fileUploadReducer
     }
 })
 
